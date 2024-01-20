@@ -42,7 +42,7 @@ export const getUserItems = async (req, res) => {
     }
 
     res.status(200).json({
-        message: `Items purchased by user with ${userId}`;
+        message: `Items purchased by user with ${userId}`,
         data: items
     })
 };
