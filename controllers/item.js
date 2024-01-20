@@ -9,7 +9,7 @@ export const createItem = async (req, res) => {
 
     if (!user) {
       res.status(404).json({
-        message: `User with ${userId} not found`,
+        message: `user not found`,
       });
     }
 
