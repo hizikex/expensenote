@@ -1,10 +1,11 @@
 import Item from "../models/item.js";
+import User from "../models/user.js"
 
 export const createItem = async (req, res) => {
   try {
     const { itemName, price } = req.body;
     const userId = req.params.userId;
-    const user = await Item.findOne({ userId });
+    const user = await User.findById(userId);
 
     if (!user) {
       res.status(404).json({
@@ -15,7 +16,7 @@ export const createItem = async (req, res) => {
     const newItem = new Item({
       itemName,
       price,
-      user: userId,
+      user:user._id,
     });
 
     const savedItem = await newItem.save();
@@ -25,24 +26,32 @@ export const createItem = async (req, res) => {
       data: savedItem,
     });
   } catch (err) {
-    res.status(401).json({
+    res.status(500).json({
       message: err.message,
     });
   }
 };
 
 export const getUserItems = async (req, res) => {
-    const userId = req.params.userId;
-    const items = await Item.find(userId);
+ try {
 
-    if (!items) {
-        res.status(404).json({
-            message: `No items found`
-        })
-    }
+  const userId = req.params.userId;
+  const items = await Item.findOne({user:userId});
 
-    res.status(200).json({
-        message: `Items purchased by user with ${userId}`;
-        data: items
-    })
+  if (!items) {
+      res.status(404).json({
+          message: `No items found`
+      })
+  }
+
+  res.status(200).json({
+      message: `Items purchased by user with ${userId}`,
+      data: items
+  })
+  
+ } catch (err) {
+  return res.status(500).json({
+    message:err.message
+  })
+ }
 };

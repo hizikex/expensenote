@@ -10,10 +10,9 @@ const itemSchema = new Schema({
     type: Number,
     required: [true, 'Price is required'],
   },
-  user: {
+  user:{
     type: Schema.Types.ObjectId,
-    ref: 'User',
-    required: [true, 'User reference is required'],
+    ref:'User',
   },
 },
 {

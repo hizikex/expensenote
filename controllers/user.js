@@ -1,10 +1,10 @@
-import User from "../models/user.js";
+import User from "../models/user.js"
 import bcrypt from "bcrypt"
 
 export const registerUser = async (req, res) => {
     try {
         const { fullname, email, password, gender} = req.body;
-        const user = await findOne({email: email});
+        const user = await User.findOne({email: email});
     
         if (user) 
         res.status(404).json({
@@ -21,7 +21,7 @@ export const registerUser = async (req, res) => {
             gender
         });
     
-        await User.save();
+        await newUser.save();
     
         res.status(201).json({
             message: `${fullname} has successfully registered`,

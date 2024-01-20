@@ -5,24 +5,19 @@ import { userRoutes } from "./routes/user.js";
 import { itemRoutes } from './routes/item.js';
 import mongoose from "mongoose";
 
-const PORT = 5999;
 const app = express();
-
 app.use(express.json());
-app.use("/", userRoutes);
-app.use('/', itemRoutes);
+app.use(userRoutes);
+app.use(itemRoutes);
 
-mongoose.set("strictQuery", true);
-mongoose
-  .connect("mongodb+srv://expensenoteapp.rs69tqw.mongodb.net/", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => {
-    console.log("MongooseDB connected");
-  })
-  .then(() => {
+const DB = process.env.DATABASE
+  mongoose.connect(DB).then(()=>{
+    console.log("dataBase established");
+
     app.listen(process.env.PORT, () => {
-      console.log("App listening on " + PORT);
+      console.log("App listening on " + process.env.PORT);
     });
-  });
+  }).catch((err)=>{
+    console.log(err.message);
+  })
+
