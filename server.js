@@ -14,7 +14,7 @@ app.use('/', itemRoutes);
 
 mongoose.set("strictQuery", true);
 mongoose
-  .connect("mongodb+srv://expensenoteapp.rs69tqw.mongodb.net/", {
+  .connect(process.env.DATABASE, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
